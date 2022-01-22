@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="62dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_gravity="center"
+    android:background="@drawable/card_rounded_background"
+    android:layout_margin="2dp"
+
+    app:layout_anchorGravity="center">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_directions_walk_24"
+        android:layout_gravity="center"
+        android:rotation="30"
+        android:layout_marginHorizontal="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/fall_detection_card_text"
+        android:gravity="center_vertical"
+        android:layout_marginRight="10dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_gravity="right"
+        android:layout_marginRight="10dp">
+
+        <TextView
+            android:id="@+id/fall_card_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text=""/>
+
+        <TextView
+            android:id="@+id/fall_card_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text=""/>
+    </LinearLayout>
+
+</LinearLayout>

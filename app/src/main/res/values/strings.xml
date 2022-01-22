@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Fall_Detection</string>
+    <!-- TODO: Remove or change this placeholder text -->
+
+
+    <string name="settings_title1">Detection Sensitivity Threshold : </string>
+    <string name="settings_title2">Supervisor Contacts : </string>
+
+    <string name="fall_detection_title1">Detected Falls History : </string>
+    <string name="fall_detection_card_text">Fall Detected at : </string>
+
+    <string name="test_mode_title1">Upload Data Log files : </string>
+    <string name="test_mode_title2">Detected Falls : </string>
+
+
+
+</resources>

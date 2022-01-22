@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SettingsFragment">
+
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_title1"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold" />
+
+        <SeekBar
+            android:id="@+id/seekBar2"
+            android:layout_width="340dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:orientation="vertical"
+
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_title2"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp" />
+
+        <LinearLayout
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical"
+
+            >
+
+            <EditText
+                android:id="@+id/supervisor_email"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_edit_text"
+                android:paddingLeft="20dp"
+                android:paddingVertical="5dp"
+                android:singleLine="false"
+                android:layout_marginTop="6dp"
+                android:text="example@Eg.com"
+                android:layout_marginRight="20dp"
+                android:textColor="#777777"
+
+                >
+
+            </EditText>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_delete_24"
+                android:backgroundTint="#80FFFFFF"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom|center_horizontal"
+        >
+<!--        <Button-->
+<!--            android:padding="8dp"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginRight="3dp"-->
+<!--            android:text="cancel"-->
+<!--            android:backgroundTint="#E6E6E6"/>-->
+<!--        -->
+        <Button
+
+            android:layout_marginLeft="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="save"
+            android:backgroundTint="#777777"
+            android:layout_marginBottom="10dp"/>
+    </LinearLayout>
+
+
+</LinearLayout>
