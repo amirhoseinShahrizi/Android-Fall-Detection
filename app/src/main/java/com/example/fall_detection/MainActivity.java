@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -23,43 +24,10 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView a_x_tv, a_y_tv, a_z_tv,g_x_tv, g_y_tv, g_z_tv;
     TabLayout tabLayout;
     ViewPager2 viewPager2;
     FragmentAdapter fragmentAdapter;
 
-
-    private SensorManager a_sensorManager;
-    private Sensor accelerometer_sensor, gyroscope_sensor;
-
-    protected final SensorEventListener accelerometerListener = new SensorEventListener() {
-        @Override
-        public void onSensorChanged(SensorEvent sensorEvent) {
-            a_x_tv.setText("A X = "+sensorEvent.values[0]);
-            a_y_tv.setText("A Y = "+sensorEvent.values[1]);
-            a_z_tv.setText("A Z = "+sensorEvent.values[2]);
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int i) {
-
-        }
-    };
-
-
-    protected final SensorEventListener gyroscopeListener = new SensorEventListener() {
-        @Override
-        public void onSensorChanged(SensorEvent sensorEvent) {
-            g_x_tv.setText("G X = "+sensorEvent.values[0]);
-            g_y_tv.setText("G Y = "+sensorEvent.values[1]);
-            g_z_tv.setText("G Z = "+sensorEvent.values[2]);
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int i) {
-
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +38,29 @@ public class MainActivity extends AppCompatActivity {
         setPages();
 //        setSensors();
 
-
+        startService(new Intent( this, FallDetectionService.class));
     }
 
 
+//    private void fallDetectionTestMode(ArrayList<String> records) {
+//        // each record = time ax ay az gx gy gz
+//        for (String record : records) {
+//
+//            float[] itemReading = new float[7];
+//            int i = 0;
+//
+//            for (String item : record.split(" ")) {
+//                itemReading[i] = Float.parseFloat(item);
+//                i++;
+//            }
+//
+//            // Detect fall for this record
+//
+//        }
+//    }
 
-    private  void setPages(){
+
+    private void setPages(){
         tabLayout =  findViewById(R.id.tab_layout);
         viewPager2 = findViewById(R.id.view_pager2);
 
@@ -112,28 +97,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
     }
-
-
-
-    private void setSensors(){
-
-        a_x_tv = findViewById(R.id.a_x_tv);
-        a_y_tv = findViewById(R.id.a_y_tv);
-        a_z_tv = findViewById(R.id.a_z_tv);
-
-        g_x_tv = findViewById(R.id.g_x_tv);
-        g_y_tv = findViewById(R.id.g_y_tv);
-        g_z_tv = findViewById(R.id.g_z_tv);
-
-        a_sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        accelerometer_sensor = a_sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        a_sensorManager.registerListener(accelerometerListener, accelerometer_sensor, a_sensorManager.SENSOR_DELAY_UI);
-
-        gyroscope_sensor = a_sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-        a_sensorManager.registerListener(gyroscopeListener, gyroscope_sensor, a_sensorManager.SENSOR_DELAY_UI);
-    }
-
-
 }
