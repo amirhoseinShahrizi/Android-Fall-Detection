@@ -29,8 +29,13 @@ public class FallDetectionService extends Service implements SensorEventListener
     boolean fallDetected = false;
     long timeDetected;
 
+    HistoryDBHelper db;
+    
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        // handle database
+        db = new HistoryDBHelper(this);
+
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -40,7 +45,11 @@ public class FallDetectionService extends Service implements SensorEventListener
     }
 
     private void detection() {
-        // TODO: save fall detection in database and send sms
+        // Save fall in database
+        DetectedFall detectedFall = new DetectedFall();
+        db.addFall(detectedFall);
+
+        // TODO: Send SMS
     }
 
     @Override
