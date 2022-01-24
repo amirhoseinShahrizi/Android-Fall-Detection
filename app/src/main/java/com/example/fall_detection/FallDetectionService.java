@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.hardware.*;
 import android.os.IBinder;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -30,7 +31,7 @@ public class FallDetectionService extends Service implements SensorEventListener
     long timeDetected;
 
     HistoryDBHelper db;
-    
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // handle database
@@ -49,7 +50,14 @@ public class FallDetectionService extends Service implements SensorEventListener
         DetectedFall detectedFall = new DetectedFall();
         db.addFall(detectedFall);
 
-        // TODO: Send SMS
+        // Sending SMS
+        String number = "09212422065";
+        String msg = "Fall detected";
+
+        SmsManager sms = SmsManager.getDefault();
+        sms.sendTextMessage(number, null, msg, null,null);
+        Toast.makeText(getApplicationContext(), "Message Sent successfully!",
+                Toast.LENGTH_LONG).show();
     }
 
     @Override
