@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +16,8 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class SettingsFragment extends Fragment {
+
+    private String supervisor_no;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,6 +63,23 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        View A = inflater.inflate(R.layout.fragment_settings, container, false);
+        setRV(A);
+        return A;
+    }
+
+    public void setRV(View view) {
+        EditText editText_supervisor_no;
+        Button button_save;
+
+        editText_supervisor_no = (EditText) view.findViewById(R.id.edittext_supervisor_no);
+        button_save = (Button) view.findViewById(R.id.btn_save);
+
+        button_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                supervisor_no = editText_supervisor_no.getText().toString();
+            }
+        });
     }
 }

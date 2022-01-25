@@ -46,12 +46,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_gravity="center_vertical"
-
-            >
+            android:layout_gravity="center_vertical">
 
             <EditText
-                android:id="@+id/supervisor_email"
+                android:id="@+id/edittext_supervisor_no"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_edit_text"
@@ -59,20 +57,10 @@
                 android:paddingVertical="5dp"
                 android:singleLine="false"
                 android:layout_marginTop="6dp"
-                android:text="example@Eg.com"
-                android:layout_marginRight="20dp"
-                android:textColor="#777777"
-
-                >
-
+                android:hint="Phone number"
+                android:inputType="number"
+                android:textColor="#777777">
             </EditText>
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_delete_24"
-                android:backgroundTint="#80FFFFFF"/>
-
         </LinearLayout>
     </LinearLayout>
 
@@ -90,7 +78,7 @@
 <!--            android:backgroundTint="#E6E6E6"/>-->
 <!--        -->
         <Button
-
+            android:id="@+id/btn_save"
             android:layout_marginLeft="3dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
