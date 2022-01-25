@@ -11,16 +11,18 @@
         android:layout_height="120dp"
         android:gravity="center">
 
-        <Button
-
-
+        <ToggleButton
+            android:id="@+id/toggle_btn"
             android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="start"
+            android:textOn="@string/btn_stop"
+            android:textOff="@string/btn_start"
+            android:textColor="#FFFFFF"
             android:paddingHorizontal="40dp"
             android:backgroundTint="#777777"
             />
+
     </LinearLayout>
 
     <LinearLayout

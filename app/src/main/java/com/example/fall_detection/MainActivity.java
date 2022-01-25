@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setPages();
 //        setSensors();
 
-        startService(new Intent( this, FallDetectionService.class));
+//        startService(new Intent( this, FallDetectionService.class));
     }
 
 

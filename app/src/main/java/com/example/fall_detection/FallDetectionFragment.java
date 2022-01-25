@@ -1,5 +1,6 @@
 package com.example.fall_detection;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,9 +8,11 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 
@@ -68,6 +71,22 @@ public class FallDetectionFragment extends Fragment {
         return A;
     }
     private void setRV(View view){
+        // Start button
+        ToggleButton toggle_btn = (ToggleButton) view.findViewById(R.id.toggle_btn);
+        toggle_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (toggle_btn.isChecked()) {
+                    Log.i("Start", "Start Clicked");
+                    getActivity().startService(new Intent(getActivity(), FallDetectionService.class));
+                }
+                else {
+                    Log.i("Stop", "Stop Clicked");
+                    getActivity().stopService(new Intent(getActivity(), FallDetectionService.class));
+                }
+            }
+        });
+
         //setting recycler view
         //later get from database probably
 
