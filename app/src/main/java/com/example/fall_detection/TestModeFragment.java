@@ -126,7 +126,7 @@ public class TestModeFragment extends Fragment {
     private void launchTestFallDetector(String content) {
         try {
             JSONArray testData = new JSONArray(content);
-            FallDetectorCore detector = new FallDetectorCore(getContext(), "09212422065", true, testData);
+            FallDetectorCore detector = new FallDetectorCore(getContext(), "09212422065", 1, testData);
             detector.simulateSensors();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -134,7 +134,6 @@ public class TestModeFragment extends Fragment {
             e.printStackTrace();
             Toast.makeText(getContext(), "SHIIIIIIIIIIIIIIIIIT", Toast.LENGTH_LONG).show();
         }
-
     }
 
     private void setRV(View view){

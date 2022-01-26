@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 public class FallDetectorCore {
 
-    public FallDetectorCore(Context context, String phoneNumber, boolean testMod, JSONArray sensorTestData){
+    public FallDetectorCore(Context context, String phoneNumber, Integer testMod, JSONArray sensorTestData){
         this.context = context;
         this.phoneNumber = phoneNumber;
         this.db = new HistoryDBHelper(context);
@@ -26,7 +26,7 @@ public class FallDetectorCore {
 
     private String phoneNumber;
     private Context context;
-    private boolean testMod;
+    private Integer testMod;
     long accelerometerTime;
     boolean isACCLessThanLFT = false;
     private JSONArray sensorTestData;
@@ -41,7 +41,8 @@ public class FallDetectorCore {
     private void detection() {
         // Save fall in database
         DetectedFall detectedFall = new DetectedFall();
-        db.addFall(detectedFall);
+        db.addFall(detectedFall, this.testMod);
+
         // Sending SMS
         String msg = "Fall detected";
         SmsManager sms = SmsManager.getDefault();
@@ -134,7 +135,7 @@ public class FallDetectorCore {
     }
 
     public void simulateSensors() throws Exception {
-        if (sensorTestData == null || !testMod)
+        if (sensorTestData == null || testMod == 0)
             throw new Exception("No Test Data provided or not in test mode");
 
         for (int i = 0; i < sensorTestData.length(); i++) {

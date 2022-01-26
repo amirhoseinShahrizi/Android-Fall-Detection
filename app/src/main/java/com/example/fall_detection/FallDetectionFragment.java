@@ -91,9 +91,9 @@ public class FallDetectionFragment extends Fragment {
 
         falls_list = new ArrayList<DetectedFall>();
         falls_reversed_list = new ArrayList<DetectedFall>();
-        db.getAllFalls().forEach(fall -> falls_list.add(fall));
+        db.getAllFalls(0).forEach(fall -> falls_list.add(fall));
 
-        Log.i("falls", db.getAllFalls().get(0).getCurrent_date());
+        Log.i("falls", db.getAllFalls(0).get(0).getCurrent_date());
         for(int i = falls_list.size()-1; i >= 0; i--){
             falls_reversed_list.add(falls_list.get(i));
         }

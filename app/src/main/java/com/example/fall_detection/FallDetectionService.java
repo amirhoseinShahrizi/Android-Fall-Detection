@@ -38,7 +38,7 @@ public class FallDetectionService extends Service implements SensorEventListener
         detector = new FallDetectorCore(
                 getApplicationContext(),
                 getGlobal_number(),
-                false,
+                0,
                 null);
         Log.i("Service", "FallDetectionService started");
 
