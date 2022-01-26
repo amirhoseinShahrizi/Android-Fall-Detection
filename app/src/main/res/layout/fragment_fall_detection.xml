@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="140dp"
         android:gravity="center">
 
         <ToggleButton
@@ -20,7 +20,7 @@
             android:textOff="@string/btn_start"
             android:textColor="#FFFFFF"
             android:paddingHorizontal="40dp"
-            android:backgroundTint="#777777"
+            android:backgroundTint="#008080"
             />
 
     </LinearLayout>
@@ -43,7 +43,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fall_history_recycler_view"
             android:layout_width="wrap_content"
-            android:layout_height="200dp"
+            android:layout_height="396dp"
             android:layout_gravity="center"
             />
 <!--        <Button-->
