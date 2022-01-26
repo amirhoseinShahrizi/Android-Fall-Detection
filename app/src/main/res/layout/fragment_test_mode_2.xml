@@ -21,13 +21,16 @@
             android:layout_height="wrap_content"
             android:text="@string/test_mode_title1"
             android:textStyle="bold"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="10dp"
+            android:textColor="#002626"
+            />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:dividerPadding="5sp"
+            android:layout_marginTop="20dp"
             android:padding="10dp">
 
             <EditText
@@ -37,20 +40,36 @@
                 android:background="@drawable/rounded_edit_text"
                 android:layout_marginRight="20dp"
                 android:paddingLeft="20dp"
+                android:layout_marginLeft="12dp"
                 android:paddingVertical="5dp"
                 android:textColor="#777777"
+                android:textColorHint="#6C8080"
                 android:hint="Upload txt file"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textUri"/>
+                android:inputType="textUri"
+                android:backgroundTint="#DAF2F2"
 
-            <Button
+                />
+
+            <ImageButton
                 android:id="@+id/button_browse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:text="Browse"
-                android:backgroundTint="#777777"/>
+                android:src="@drawable/ic_baseline_open_in_browser_24"
+                android:background="@null"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                />
+
+<!--            <Button-->
+<!--                android:id="@+id/button_browse"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="0"-->
+<!--                android:text="Browse"-->
+<!--                android:backgroundTint="#008080"/>-->
         </LinearLayout>
 
         <Button
@@ -61,7 +80,7 @@
             android:layout_height="wrap_content"
             android:text="test"
             android:paddingHorizontal="30dp"
-            android:backgroundTint="#777777"
+            android:backgroundTint="#008080"
             />
     </LinearLayout>
 
@@ -78,6 +97,7 @@
             android:textStyle="bold"
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="40dp"
+            android:textColor="#002626"
             />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/test_fall_history_recycler_view"

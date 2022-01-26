@@ -23,6 +23,7 @@
             android:text="@string/test_mode_title1"
             android:textStyle="bold"
             android:layout_marginLeft="10dp"
+            android:textColor="#002626"
 
             />
         <EditText
@@ -80,6 +81,7 @@
             android:textStyle="bold"
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="40dp"
+            android:textColor="#002626"
             />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/test_fall_history_recycler_view"

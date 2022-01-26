@@ -39,11 +39,12 @@
             android:textStyle="bold"
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="40dp"
+            android:textColor="#002626"
             />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fall_history_recycler_view"
             android:layout_width="wrap_content"
-            android:layout_height="396dp"
+            android:layout_height="332dp"
             android:layout_gravity="center"
             />
 <!--        <Button-->

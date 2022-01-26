@@ -18,7 +18,9 @@
             android:layout_height="wrap_content"
             android:text="@string/settings_title1"
             android:layout_marginLeft="10dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="#002626"
+            />
 
         <LinearLayout
             android:gravity="center_vertical|center_horizontal"
@@ -40,6 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:textColor="#364D4D"
                 android:text="100%"
                 />
         </LinearLayout>
@@ -57,7 +60,9 @@
             android:layout_height="wrap_content"
             android:text="@string/settings_title2"
             android:textStyle="bold"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="10dp"
+            android:textColor="#002626"
+            />
 
         <LinearLayout
             android:gravity="center_horizontal|center_vertical"
@@ -67,17 +72,21 @@
 
             <EditText
                 android:id="@+id/supervisor_no_ed"
-                android:layout_width="300dp"
+                android:layout_width="336dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_edit_text"
-                android:paddingLeft="20dp"
+                android:paddingLeft="10dp"
+                android:layout_marginLeft="16dp"
                 android:paddingVertical="5dp"
                 android:singleLine="false"
                 android:layout_marginTop="6dp"
                 android:hint="Phone number"
                 android:inputType="number"
-                android:textColor="#777777"
+                android:textColor="#002626"
+                android:textColorHint="#6C8080"
+                android:backgroundTint="#DAF2F2"
                 android:text="">
+
             </EditText>
 
             <androidx.constraintlayout.utils.widget.ImageFilterButton
@@ -86,8 +95,8 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_delete_24"
                 android:layout_gravity="center"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
 
                 android:onClick="clearPhoneNumClicked"

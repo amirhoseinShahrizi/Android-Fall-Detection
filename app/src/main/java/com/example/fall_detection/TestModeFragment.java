@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class TestModeFragment extends Fragment {
     private static final int MY_REQUEST_CODE_PERMISSION = 1000;
     private static final int MY_RESULT_CODE_FILECHOOSER = 2000;
 
-    private Button buttonBrowse;
+    private ImageButton buttonBrowse;
     private EditText editTextPath;
 
     private static final String LOG_TAG = "AndroidExample";
@@ -181,7 +182,8 @@ public class TestModeFragment extends Fragment {
     private void setRV(View view){
 
         this.editTextPath = (EditText) view.findViewById(R.id.editText_path);
-        this.buttonBrowse = (Button) view.findViewById(R.id.button_browse);
+//        this.buttonBrowse = (Button) view.findViewById(R.id.button_browse);
+        this.buttonBrowse =  view.findViewById(R.id.button_browse);
 
         this.buttonBrowse.setOnClickListener(new View.OnClickListener() {
             @Override
