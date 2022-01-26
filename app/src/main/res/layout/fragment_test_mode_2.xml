@@ -39,7 +39,7 @@
                 android:paddingLeft="20dp"
                 android:paddingVertical="5dp"
                 android:textColor="#777777"
-                android:hint="Upload txt file"
+                android:hint="Your test file"
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textUri"/>
@@ -49,20 +49,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:text="Browse"
-                android:backgroundTint="#777777"/>
+                android:text="Test"
+                android:backgroundTint="#008080"/>
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_test"
-            android:layout_marginTop="40dp"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="test"
-            android:paddingHorizontal="30dp"
-            android:backgroundTint="#777777"
-            />
     </LinearLayout>
 
     <LinearLayout

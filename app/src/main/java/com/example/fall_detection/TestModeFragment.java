@@ -112,9 +112,11 @@ public class TestModeFragment extends Fragment {
                     InputStream in = getContext().getContentResolver().openInputStream(uri);
                     BufferedReader r = new BufferedReader(new InputStreamReader(in));
                     StringBuilder total = new StringBuilder();
+
                     for (String line; (line = r.readLine()) != null; ) {
                         total.append(line).append('\n');
                     }
+
                     return total.toString();
                 }
 
