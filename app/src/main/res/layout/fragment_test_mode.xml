@@ -26,24 +26,38 @@
 
             />
         <EditText
-
+            android:id="@+id/test_mode_et"
             android:layout_marginTop="24dp"
             android:layout_gravity="center"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
+            android:layout_width="320dp"
+            android:layout_height="160dp"
             android:background="@drawable/rounded_edit_text"
             android:paddingLeft="20dp"
             android:paddingVertical="5dp"
             android:singleLine="false"
-
-            android:text="Upload ????"
-            android:layout_marginRight="20dp"
+            android:hint="Enter Test Records Here"
+            android:text="check delete button"
             android:textColor="#777777"
 
-            />
+            android:gravity="top"
+
+        />
+
+        <androidx.constraintlayout.utils.widget.ImageFilterButton
+            android:id="@+id/clear_ib"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_delete_24"
+            android:layout_gravity="right"
+            android:layout_marginRight="60dp"
+            android:layout_marginTop="5dp"
+            android:onClick="clearClicked"
+
+        />
+
         <Button
 
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="10dp"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

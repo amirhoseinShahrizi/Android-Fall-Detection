@@ -46,19 +46,19 @@
             android:layout_height="200dp"
             android:layout_gravity="center"
             />
-        <Button
+<!--        <Button-->
 
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="50dp"
-            android:layout_height="35dp"
-            android:text="Clear History"
-            android:paddingHorizontal="20dp"
-            android:backgroundTint="#E6E6E6"
-            android:textColor="#777777"
-            android:textSize="12sp"
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_marginTop="50dp"-->
+<!--            android:layout_height="35dp"-->
+<!--            android:text="Clear History"-->
+<!--            android:paddingHorizontal="20dp"-->
+<!--            android:backgroundTint="#E6E6E6"-->
+<!--            android:textColor="#777777"-->
+<!--            android:textSize="12sp"-->
 
-            />
+<!--            />-->
 
 
     </LinearLayout>

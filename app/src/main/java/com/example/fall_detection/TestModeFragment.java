@@ -1,5 +1,6 @@
 package com.example.fall_detection;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,9 +8,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 
@@ -28,6 +32,9 @@ public class TestModeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    EditText records_ET;
+    ImageButton clear_IB;
 
     public TestModeFragment() {
         // Required empty public constructor
@@ -65,6 +72,12 @@ public class TestModeFragment extends Fragment {
         // Inflate the layout for this fragment
         View A = inflater.inflate(R.layout.fragment_test_mode, container, false);
         setRV(A);
+
+        records_ET = A.findViewById(R.id.test_mode_et);
+        clear_IB = A.findViewById(R.id.clear_ib);
+        clearClicked(clear_IB);
+
+
         return A;
     }
 
@@ -87,5 +100,22 @@ public class TestModeFragment extends Fragment {
         FallCardAdapter fallCardAdapter_fd = new FallCardAdapter(falls_list);
         recyclerView_fd.setAdapter(fallCardAdapter_fd);
         recyclerView_fd.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    private void clearClicked(ImageButton ib){
+        ib.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                if (toggle_btn.isChecked()) {
+//                    Log.i("Start", "Start Clicked");
+//                    getActivity().startService(new Intent(getActivity(), FallDetectionService.class));
+//                }
+//                else {
+//                    Log.i("Stop", "Stop Clicked");
+//                    getActivity().stopService(new Intent(getActivity(), FallDetectionService.class));
+//                }
+                records_ET.setText("");
+            }
+        });
     }
 }

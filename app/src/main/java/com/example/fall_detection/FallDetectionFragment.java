@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ToggleButton;
 
 import java.util.ArrayList;
@@ -31,6 +33,9 @@ public class FallDetectionFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    public static ArrayList<DetectedFall> falls_list;
+    HistoryDBHelper db;
+    public static FallCardAdapter fallCardAdapter_fd;
 
     public FallDetectionFragment() {
         // Required empty public constructor
@@ -67,10 +72,34 @@ public class FallDetectionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View A = inflater.inflate(R.layout.fragment_fall_detection, container, false);
         setRV(A);
+        setFallDetectionService(A);
         // Inflate the layout for this fragment
         return A;
     }
-    private void setRV(View view){
+    public void setRV(View view){
+
+        falls_list = new ArrayList<DetectedFall>();
+        //setting recycler view
+        //later get from database probably
+        RecyclerView recyclerView_fd = (RecyclerView) view.findViewById(R.id.fall_history_recycler_view);
+        recyclerView_fd.setLayoutManager( new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
+        db = new HistoryDBHelper(getContext());
+
+//        Log.i("falls", db.getAllFalls().get(0).getCurrent_date());
+        for(int i = falls_list.size()-1; i >= 0; i--){
+            falls_list.add(falls_list.get(i));
+        }
+        db.getAllFalls().forEach(fall -> falls_list.add(fall));
+
+
+        fallCardAdapter_fd = new FallCardAdapter(falls_list);
+        recyclerView_fd.setAdapter(fallCardAdapter_fd);
+        recyclerView_fd.setItemAnimator(new DefaultItemAnimator());
+
+    }
+
+
+    private void setFallDetectionService(View view){
         // Start button
         ToggleButton toggle_btn = (ToggleButton) view.findViewById(R.id.toggle_btn);
         toggle_btn.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +108,7 @@ public class FallDetectionFragment extends Fragment {
                 if (toggle_btn.isChecked()) {
                     Log.i("Start", "Start Clicked");
                     getActivity().startService(new Intent(getActivity(), FallDetectionService.class));
+
                 }
                 else {
                     Log.i("Stop", "Stop Clicked");
@@ -86,24 +116,7 @@ public class FallDetectionFragment extends Fragment {
                 }
             }
         });
-
-        //setting recycler view
-        //later get from database probably
-
-        
-        RecyclerView recyclerView_fd = (RecyclerView) view.findViewById(R.id.fall_history_recycler_view);
-        recyclerView_fd.setLayoutManager( new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
-
-        ArrayList<DetectedFall> falls_list = new ArrayList<DetectedFall>();
-        falls_list.add(new DetectedFall());
-        falls_list.add(new DetectedFall("1/1/2022", "11:56 AM"));
-        falls_list.add(new DetectedFall("1/1/2022", "11:56 AM"));
-        falls_list.add(new DetectedFall("1/1/2022", "11:56 AM"));
-        falls_list.add(new DetectedFall("1/1/2022", "11:56 AM"));
-        falls_list.add(new DetectedFall("1/1/2022", "11:56 AM"));
-
-        FallCardAdapter fallCardAdapter_fd = new FallCardAdapter(falls_list);
-        recyclerView_fd.setAdapter(fallCardAdapter_fd);
-        recyclerView_fd.setItemAnimator(new DefaultItemAnimator());
     }
+
+
 }

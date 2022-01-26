@@ -38,6 +38,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+//        HistoryDBHelper db = new HistoryDBHelper(this);
+//        db.addFall(new DetectedFall());
+//        db.addFall(new DetectedFall());
+//        db.addFall(new DetectedFall());
+
         setPages();
         sendSMSMessage();
 //        setSensors();

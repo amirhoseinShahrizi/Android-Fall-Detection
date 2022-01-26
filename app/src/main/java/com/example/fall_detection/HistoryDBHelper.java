@@ -62,12 +62,14 @@ public class HistoryDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
+        DetectedFall detectedFall;
+
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                DetectedFall detectedFall = new DetectedFall();
-                detectedFall.setCurrent_date(cursor.getString(1)); // date
-                detectedFall.setCurrent_time(cursor.getString(2)); // time
+                detectedFall = new DetectedFall(cursor.getString(1), cursor.getString(2));
+//                detectedFall.setCurrent_date(cursor.getString(1)); // date
+//                detectedFall.setCurrent_time(cursor.getString(2)); // time
                 // Adding contact to list
                 fallsList.add(detectedFall);
             } while (cursor.moveToNext());
