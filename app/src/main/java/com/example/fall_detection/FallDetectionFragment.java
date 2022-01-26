@@ -33,7 +33,8 @@ public class FallDetectionFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    public static ArrayList<DetectedFall> falls_list;
+    public ArrayList<DetectedFall> falls_list;
+    public static ArrayList<DetectedFall> falls_reversed_list;
     HistoryDBHelper db;
     public static FallCardAdapter fallCardAdapter_fd;
 
@@ -78,21 +79,27 @@ public class FallDetectionFragment extends Fragment {
     }
     public void setRV(View view){
 
-        falls_list = new ArrayList<DetectedFall>();
+//        falls_list.add(new DetectedFall("1-Jan-2022", "10:00 AM"));
+//        falls_list.add(new DetectedFall("2-Jan-2022", "11:00 AM"));
+//        falls_list.add(new DetectedFall("2-Jan-2022", "12:00 AM"));
+//        falls_list.add(new DetectedFall("3-Jan-2022", "13:00 AM"));
         //setting recycler view
         //later get from database probably
         RecyclerView recyclerView_fd = (RecyclerView) view.findViewById(R.id.fall_history_recycler_view);
         recyclerView_fd.setLayoutManager( new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
         db = new HistoryDBHelper(getContext());
 
-//        Log.i("falls", db.getAllFalls().get(0).getCurrent_date());
-        for(int i = falls_list.size()-1; i >= 0; i--){
-            falls_list.add(falls_list.get(i));
-        }
+        falls_list = new ArrayList<DetectedFall>();
+        falls_reversed_list = new ArrayList<DetectedFall>();
         db.getAllFalls().forEach(fall -> falls_list.add(fall));
 
+        Log.i("falls", db.getAllFalls().get(0).getCurrent_date());
+        for(int i = falls_list.size()-1; i >= 0; i--){
+            falls_reversed_list.add(falls_list.get(i));
+        }
 
-        fallCardAdapter_fd = new FallCardAdapter(falls_list);
+
+        fallCardAdapter_fd = new FallCardAdapter(falls_reversed_list);
         recyclerView_fd.setAdapter(fallCardAdapter_fd);
         recyclerView_fd.setItemAnimator(new DefaultItemAnimator());
 
@@ -108,7 +115,6 @@ public class FallDetectionFragment extends Fragment {
                 if (toggle_btn.isChecked()) {
                     Log.i("Start", "Start Clicked");
                     getActivity().startService(new Intent(getActivity(), FallDetectionService.class));
-
                 }
                 else {
                     Log.i("Stop", "Stop Clicked");

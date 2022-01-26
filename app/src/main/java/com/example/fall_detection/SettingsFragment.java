@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +38,12 @@ public class SettingsFragment extends Fragment {
     public SettingsFragment() {
         // Required empty public constructor
     }
+
+    TextView threshold_tv;
+    SeekBar threshold_sb;
+    EditText supervisor_pn;
+    ImageButton clear_phone_num_ib;
+    private int seekBar_content;
 
     /**
      * Use this factory method to create a new instance of
@@ -69,23 +76,34 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View A = inflater.inflate(R.layout.fragment_settings, container, false);
+
+        clear_phone_num_ib = A.findViewById(R.id.clear_phone_num_ib);
+
         setRV(A);
         setThreshold(A);
         setPhoneNumber(A);
+        clearPhoneNumClicked(clear_phone_num_ib);
         return A;
     }
 
     public void setThreshold(View view){
-        TextView threshold_tv;
-        SeekBar threshold_sb;
+
 
         threshold_sb = view.findViewById(R.id.threshold_seekBar);
         threshold_tv = view.findViewById(R.id.threshold_percentage);
+        threshold_tv.setText("Maximum rate");
 
         threshold_sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                threshold_tv.setText(i + "%");
+
+                switch (i){
+                    case 3: threshold_tv.setText("Maximum rate"); break;
+                    case 2: threshold_tv.setText("Medium rate"); break;
+                    case 1: threshold_tv.setText("Slow rate"); break;
+                    case 0: threshold_tv.setText("Minimum rate"); break;
+                }
+                seekBar_content = i;
             }
 
             @Override
@@ -117,7 +135,7 @@ public class SettingsFragment extends Fragment {
     }
 
     private void setPhoneNumber(View view){
-        EditText supervisor_pn = view.findViewById(R.id.supervisor_no_ed);
+        supervisor_pn = view.findViewById(R.id.supervisor_no_ed);
         Button save = view.findViewById(R.id.save_btn);
 
         save.setOnClickListener(new View.OnClickListener(){
@@ -129,6 +147,9 @@ public class SettingsFragment extends Fragment {
                 if(supervisor_pn.getText().toString().compareTo("") != 0){
                     Toast.makeText(getActivity(), "Saved !", Toast.LENGTH_SHORT).show();
                 }
+
+                FallDetectionService.sensorAccuracy = seekBar_content;
+
 
             }
         });
@@ -143,5 +164,15 @@ public class SettingsFragment extends Fragment {
             view = new View(activity);
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    private void clearPhoneNumClicked(ImageButton clearPhoneNum_ib){
+
+        clearPhoneNum_ib.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                supervisor_pn.setText("");
+            }
+        });
     }
 }

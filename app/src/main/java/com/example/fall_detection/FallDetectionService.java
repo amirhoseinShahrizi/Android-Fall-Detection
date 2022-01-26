@@ -33,6 +33,7 @@ public class FallDetectionService extends Service implements SensorEventListener
     HistoryDBHelper db;
 
     private static String global_number = "";
+    public static int sensorAccuracy = 0;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -53,8 +54,8 @@ public class FallDetectionService extends Service implements SensorEventListener
         db.addFall(detectedFall);
         int size = db.getAllFalls().size()-1;
 //        Log.i("fall detected", db.getAllFalls().get(size).getCurrent_date() + db.getAllFalls().get(size).getCurrent_time());
-        FallDetectionFragment.falls_list.add(detectedFall);
-        FallDetectionFragment.fallCardAdapter_fd.notifyItemInserted(size-1);
+        FallDetectionFragment.falls_reversed_list.add(0, detectedFall);
+        FallDetectionFragment.fallCardAdapter_fd.notifyItemInserted(size);
 
         String number = "09172622474";
         // Sending SMS
@@ -150,6 +151,30 @@ public class FallDetectionService extends Service implements SensorEventListener
                 SensorManager.SENSOR_DELAY_FASTEST);
     }
 
+    public void changeSamplingRate(int i) {
+
+        switch (i){
+            case 3:
+                sensorManager.registerListener(this, accelerometer_sensor, SensorManager.SENSOR_DELAY_FASTEST);
+                sensorManager.registerListener(this, gyroscope_sensor, SensorManager.SENSOR_DELAY_FASTEST);
+                break;
+            case 2:
+                sensorManager.registerListener(this, accelerometer_sensor, SensorManager.SENSOR_DELAY_UI);
+                sensorManager.registerListener(this, gyroscope_sensor, SensorManager.SENSOR_DELAY_UI);
+                break;
+            case 1:
+                sensorManager.registerListener(this, accelerometer_sensor, SensorManager.SENSOR_DELAY_GAME);
+                sensorManager.registerListener(this, gyroscope_sensor, SensorManager.SENSOR_DELAY_GAME);
+                break;
+            case 0:
+                sensorManager.registerListener(this, accelerometer_sensor, SensorManager.SENSOR_DELAY_NORMAL);
+                sensorManager.registerListener(this, gyroscope_sensor, SensorManager.SENSOR_DELAY_NORMAL);
+                break;
+        }
+
+    }
+
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -158,7 +183,8 @@ public class FallDetectionService extends Service implements SensorEventListener
         accelerometer_sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         gyroscope_sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
-        initSensors();
+//        initSensors();
+        changeSamplingRate(sensorAccuracy);
     }
 
     @Nullable
@@ -175,11 +201,4 @@ public class FallDetectionService extends Service implements SensorEventListener
         return global_number;
     }
 
-    public static void setSensorAccuracy(int acc) {
-        try {
-
-        } catch (Error e){
-
-        }
-    }
 }

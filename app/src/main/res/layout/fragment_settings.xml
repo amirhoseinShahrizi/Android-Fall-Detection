@@ -23,15 +23,16 @@
         <LinearLayout
             android:gravity="center_vertical|center_horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <SeekBar
-
-                android:layout_width="340dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:max="100"
-                android:progress="100"
+                android:id="@+id/threshold_seekBar"
+                android:layout_weight="0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="3"
+                android:progress="3"
                 />
 
             <TextView
@@ -61,8 +62,7 @@
             android:gravity="center_horizontal|center_vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_gravity="center_vertical">
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/supervisor_no_ed"
@@ -78,59 +78,27 @@
                 android:textColor="#777777"
                 android:text="">
             </EditText>
+
+            <androidx.constraintlayout.utils.widget.ImageFilterButton
+                android:id="@+id/clear_phone_num_ib"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_delete_24"
+                android:layout_gravity="center"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="5dp"
+
+                android:onClick="clearPhoneNumClicked"
+
+                />
+
+
         </LinearLayout>
     </LinearLayout>
 
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            >
-            <TextView android:text="1"
-                android:layout_marginLeft="20dp"
-                android:id="@+id/answerNegative5"
-                android:textSize="25sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-            <TextView android:text="2"
-                android:id="@+id/answerNegative4"
-                android:textSize="25sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="40dp"/>
-            <TextView android:text="3"
-                android:id="@+id/answerNegative3"
-                android:textSize="25sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"/>
-<!--            <TextView android:text="4"-->
-<!--                android:textSize="25sp"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_marginRight="20dp"-->
-<!--                android:gravity="right"/>-->
-        </LinearLayout>
 
-        <SeekBar
-            android:id="@+id/threshold_seekBar"
-            android:layout_weight="0"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:max="2"
-            />
-    </LinearLayout>
 
 
     <LinearLayout
