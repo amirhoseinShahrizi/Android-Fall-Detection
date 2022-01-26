@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/bg_gradient"
+    android:background="#777777"
     tools:context=".SplashScreenActivity"
     android:gravity="center"
     android:orientation="vertical"
@@ -13,7 +13,10 @@
         android:id="@+id/SplashScreenImage"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/logo"
+        android:background="#fff000"
         android:layout_gravity="center"/>
 
 </LinearLayout>
+
+    <!--@drawable/bg_gradient-->
+    <!--@drawable/logo-->

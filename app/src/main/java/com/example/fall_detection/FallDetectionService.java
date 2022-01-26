@@ -32,6 +32,8 @@ public class FallDetectionService extends Service implements SensorEventListener
 
     HistoryDBHelper db;
 
+    private static String global_number = "";
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // handle database
@@ -49,13 +51,20 @@ public class FallDetectionService extends Service implements SensorEventListener
         // Save fall in database
         DetectedFall detectedFall = new DetectedFall();
         db.addFall(detectedFall);
+        int size = db.getAllFalls().size()-1;
+//        Log.i("fall detected", db.getAllFalls().get(size).getCurrent_date() + db.getAllFalls().get(size).getCurrent_time());
+        FallDetectionFragment.falls_list.add(detectedFall);
+        FallDetectionFragment.fallCardAdapter_fd.notifyItemInserted(size-1);
 
+        String number = "09172622474";
         // Sending SMS
-        String number = "09212422065";
+        if (global_number != ""){
+            number = getGlobal_number();
+        }
         String msg = "Fall detected";
 
         SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage(number, null, msg, null,null);
+//        sms.sendTextMessage(number, null, msg, null,null);
         Toast.makeText(getApplicationContext(), "Message Sent successfully!",
                 Toast.LENGTH_LONG).show();
     }
@@ -156,5 +165,21 @@ public class FallDetectionService extends Service implements SensorEventListener
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    public static void setGlobal_number(String global_number) {
+        FallDetectionService.global_number = global_number;
+    }
+
+    public static String getGlobal_number() {
+        return global_number;
+    }
+
+    public static void setSensorAccuracy(int acc) {
+        try {
+
+        } catch (Error e){
+
+        }
     }
 }
