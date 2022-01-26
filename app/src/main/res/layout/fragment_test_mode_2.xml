@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FallDetectionFragment"
+    android:orientation="vertical">
+
+
+
+    <LinearLayout
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/test_mode_title1"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:dividerPadding="5sp"
+            android:padding="10dp">
+
+            <EditText
+                android:id="@+id/editText_path"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_edit_text"
+                android:layout_marginRight="20dp"
+                android:paddingLeft="20dp"
+                android:paddingVertical="5dp"
+                android:textColor="#777777"
+                android:hint="Upload txt file"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textUri"/>
+
+            <Button
+                android:id="@+id/button_browse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:text="Browse"
+                android:backgroundTint="#777777"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_test"
+            android:layout_marginTop="40dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="test"
+            android:paddingHorizontal="30dp"
+            android:backgroundTint="#777777"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/test_mode_title2"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="40dp"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/test_fall_history_recycler_view"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            />
+
+
+    </LinearLayout>
+</LinearLayout>
