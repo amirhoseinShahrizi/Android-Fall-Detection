@@ -25,37 +25,22 @@ import java.util.concurrent.TimeUnit;
 
 public class FallDetectionService extends Service implements SensorEventListener {
 
-    private boolean testMod = false;
-
     private SensorManager sensorManager;
     private Sensor accelerometer_sensor, gyroscope_sensor;
 
-    private JSONArray sensorTestData = null;
+    private FallDetectorCore detector;
 
-    private float[] accelerometerReading = new float[3];
-    private float[] gyroscopeReading = new float[3];
-
-    long accelerometerTime, gyroscopeTime;
-    boolean isACCLessthanLFT = false;
-
-    private float accLFT = (float) 0.26;
-    private float accUFT = (float) 2.77;
-    private float gyrUFT = (float) 0.2545;
-
-    float acc = -1, gyro = -1;
-
-    boolean fallDetected = false;
-    long timeDetected;
-
-    HistoryDBHelper db;
-
-    private static String global_number = "";
+    private static String global_number = "09212422065";
     public static int sensorAccuracy = 0;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // handle database
-        db = new HistoryDBHelper(this);
+        detector = new FallDetectorCore(
+                getApplicationContext(),
+                getGlobal_number(),
+                false,
+                null);
+        Log.i("Service", "FallDetectionService started");
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -70,28 +55,6 @@ public class FallDetectionService extends Service implements SensorEventListener
 
         initSensors();
 //        changeSamplingRate(sensorAccuracy);
-    }
-
-    private void detection() {
-        // Save fall in database
-        DetectedFall detectedFall = new DetectedFall();
-        db.addFall(detectedFall);
-        int size = db.getAllFalls().size()-1;
-//        Log.i("fall detected", db.getAllFalls().get(size).getCurrent_date() + db.getAllFalls().get(size).getCurrent_time());
-        FallDetectionFragment.falls_reversed_list.add(0, detectedFall);
-        FallDetectionFragment.fallCardAdapter_fd.notifyItemInserted(size);
-
-        String number = "09172622474";
-        // Sending SMS
-        if (global_number != ""){
-            number = getGlobal_number();
-        }
-        String msg = "Fall detected";
-
-        SmsManager sms = SmsManager.getDefault();
-//        sms.sendTextMessage(number, null, msg, null,null);
-        Toast.makeText(getApplicationContext(), "Message Sent successfully!",
-                Toast.LENGTH_LONG).show();
     }
 
     private void writeToFile(String data, Context context){
@@ -135,71 +98,6 @@ public class FallDetectionService extends Service implements SensorEventListener
         return ret;
     }
 
-    private void run(int sensorType, float[] sensorData) {
-
-        long time = System.currentTimeMillis();
-
-        if (!isACCLessthanLFT) {
-            if (sensorType != Sensor.TYPE_ACCELEROMETER)
-                return;
-
-            float _acc = (float) Math.sqrt(sensorData[0] * sensorData[0] + sensorData[1] * sensorData[1] + sensorData[2] * sensorData[2]);
-            if (_acc < accLFT) {
-                isACCLessthanLFT = true;
-                accelerometerTime = time;
-            }
-
-        } else {
-            if (time - accelerometerTime > 500) {
-                isACCLessthanLFT = false;
-                acc = -1;
-                gyro = -1;
-                return;
-            }
-
-            switch (sensorType) {
-                case Sensor.TYPE_ACCELEROMETER:
-                    acc = (float) Math.sqrt(sensorData[0] * sensorData[0] + sensorData[1] * sensorData[1] + sensorData[2] * sensorData[2]);
-                    break;
-
-                case Sensor.TYPE_GYROSCOPE:
-                    gyro = (float) Math.sqrt(sensorData[0] * sensorData[0] + sensorData[1] * sensorData[1] + sensorData[2] * sensorData[2]);
-                    break;
-            }
-
-            if (acc == -1 || gyro == -1)
-                return;
-
-            if (acc < accUFT) {
-                acc = -1;
-                return;
-            }
-
-            if (gyro < gyrUFT) {
-                gyro = -1;
-                return;
-            }
-
-            // First time fall detected, call detection function
-            if (!fallDetected) {
-                timeDetected = time;
-                fallDetected = true;
-                acc = gyro = -1;
-                isACCLessthanLFT = false;
-                detection();
-            }
-
-            // After 10s, start fall detecting again
-            if (time - timeDetected > 10000) {
-                fallDetected = false;
-                return;
-            }
-
-            acc = gyro = -1;
-            isACCLessthanLFT = false;
-        }
-    }
-
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
         return;
@@ -209,23 +107,17 @@ public class FallDetectionService extends Service implements SensorEventListener
     public void onSensorChanged(SensorEvent sensorEvent) {
         if (sensorEvent == null)
             return;
-        if (!testMod)
-            run(sensorEvent.sensor.getType(), sensorEvent.values);
+        detector.run(sensorEvent.sensor.getType(), sensorEvent.values);
     }
 
     private void initSensors() {
+        sensorManager.registerListener(this,
+                accelerometer_sensor,
+                SensorManager.SENSOR_DELAY_FASTEST);
 
-        if (!testMod) {
-            sensorManager.registerListener(this,
-                    accelerometer_sensor,
-                    SensorManager.SENSOR_DELAY_FASTEST);
-
-            sensorManager.registerListener(this,
-                    gyroscope_sensor,
-                    SensorManager.SENSOR_DELAY_FASTEST);
-        } else {
-            simulateSensors();
-        }
+        sensorManager.registerListener(this,
+                gyroscope_sensor,
+                SensorManager.SENSOR_DELAY_FASTEST);
     }
 
     public void changeSamplingRate(int i) {
@@ -251,41 +143,6 @@ public class FallDetectionService extends Service implements SensorEventListener
 
     }
 
-    private void loadSensorTestData() {
-        try {
-            sensorTestData = new JSONArray(fall);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void simulateSensors() {
-        if (sensorTestData == null)
-            return;
-
-        for (int i = 0; i < sensorTestData.length(); i++) {
-            JSONObject sensorDataElement = sensorTestData.optJSONObject(i);
-            try {
-                int type = sensorDataElement.getInt("type");
-                float x = (float) sensorDataElement.getDouble("x");
-                float y = (float) sensorDataElement.getDouble("y");
-                float z = (float) sensorDataElement.getDouble("z");
-                run(type, new float[]{x, y, z});
-
-                if (i <= sensorDataElement.length() - 2) {
-                    long time = sensorDataElement.getLong("time");
-                    JSONObject sensorNextDataElement = sensorTestData.optJSONObject(i + 1);
-                    long nextTime = sensorNextDataElement.getLong("time");
-                    TimeUnit.MILLISECONDS.sleep(nextTime - time);
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     @Nullable
     @Override
@@ -300,7 +157,4 @@ public class FallDetectionService extends Service implements SensorEventListener
     public static String getGlobal_number() {
         return global_number;
     }
-
-    String fall = "[{\"time\":1643188284044,\"type\":4,\"x\":0,\"y\":0,\"z\":0},{\"time\":1643188284054,\"type\":4,\"x\":0,\"y\":0,\"z\":0},{\"time\":1643188284064,\"type\":4,\"x\":0,\"y\":0,\"z\":0},{\"time\":1643188284076,\"type\":4,\"x\":0,\"y\":0,\"z\":0},{\"time\":1643188284084,\"type\":4,\"x\":0,\"y\":0,\"z\":0},{\"time\":1643188284094,\"type\":4,\"x\":0,\"y\":0,\"z\":0},{\"time\":1643188284105,\"type\":4,\"x\":0,\"y\":0,\"z\":0},{\"time\":1643188284114,\"type\":4,\"x\":0,\"y\":0,\"z\":0},{\"time\":1643188284126,\"type\":4,\"x\":0,\"y\":0,\"z\":0},{\"time\":1643188284134,\"type\":1,\"x\":0.07999999821186066,\"y\":6.228013038635254,\"z\":6.961212158203125},{\"time\":1643188284135,\"type\":4,\"x\":0,\"y\":0,\"z\":0},{\"time\":1643188284136,\"type\":1,\"x\":-0.07999999821186066,\"y\":6.213071823120117,\"z\":6.940082550048828},{\"time\":1643188284143,\"type\":1,\"x\":-0.03999999910593033,\"y\":6.190186500549316,\"z\":6.921594142913818},{\"time\":1643188284145,\"type\":1,\"x\":0,\"y\":6.165256023406982,\"z\":6.905416965484619},{\"time\":1643188284146,\"type\":1,\"x\":0.03999999910593033,\"y\":6.153253555297852,\"z\":6.896167755126953},{\"time\":1643188284148,\"type\":4,\"x\":0,\"y\":0,\"z\":0}]";
-
 }

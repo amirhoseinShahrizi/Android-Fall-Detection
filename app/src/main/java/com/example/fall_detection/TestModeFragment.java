@@ -7,6 +7,10 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -22,19 +26,21 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link TestModeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class TestModeFragment extends Fragment {
 
     private static final int MY_REQUEST_CODE_PERMISSION = 1000;
     private static final int MY_RESULT_CODE_FILECHOOSER = 2000;
 
-    private ImageButton buttonBrowse;
+    private Button buttonBrowse;
     private EditText editTextPath;
 
     private static final String LOG_TAG = "AndroidExample";
@@ -88,107 +94,56 @@ public class TestModeFragment extends Fragment {
         return A;
     }
 
-    private void askPermissionAndBrowseFile()  {
-        // With Android Level >= 23, you have to ask the user
-        // for permission to access External Storage.
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) { // Level 23
+    ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
+            new ActivityResultCallback<Uri>() {
+                @Override
+                public void onActivityResult(Uri uri) {
+                    try {
+                        String content = getFileContentFromURI(uri);
+                        launchTestFallDetector(content);
 
-            // Check if we have Call permission
-            int permisson = ActivityCompat.checkSelfPermission(this.getContext(),
-                    Manifest.permission.READ_EXTERNAL_STORAGE);
-
-            if (permisson != PackageManager.PERMISSION_GRANTED) {
-                // If don't have permission so prompt the user.
-                this.requestPermissions(
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                        MY_REQUEST_CODE_PERMISSION
-                );
-                return;
-            }
-        }
-        this.doBrowseFile();
-    }
-
-    private void doBrowseFile()  {
-        Intent chooseFileIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        chooseFileIntent.setType("*/*");
-        // Only return URIs that can be opened with ContentResolver
-        chooseFileIntent.addCategory(Intent.CATEGORY_OPENABLE);
-
-        Bundle bundle = null;
-
-        chooseFileIntent = Intent.createChooser(chooseFileIntent, "Choose a file");
-        ActivityCompat.startActivityForResult(this.getActivity(), chooseFileIntent, MY_RESULT_CODE_FILECHOOSER, bundle);
-    }
-
-
-    // When you have the request results
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        //
-        switch (requestCode) {
-            case MY_REQUEST_CODE_PERMISSION: {
-
-                // Note: If request is cancelled, the result arrays are empty.
-                // Permissions granted (CALL_PHONE).
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    Log.i(LOG_TAG, "Permission granted!");
-                    Toast.makeText(this.getContext(), "Permission granted!", Toast.LENGTH_SHORT).show();
-
-                    this.doBrowseFile();
-                }
-                // Cancelled or denied.
-                else {
-                    Log.i(LOG_TAG, "Permission denied!");
-                    Toast.makeText(this.getContext(), "Permission denied!", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            }
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case MY_RESULT_CODE_FILECHOOSER:
-                if (resultCode == Activity.RESULT_OK ) {
-                    if(data != null)  {
-                        Uri fileUri = data.getData();
-                        Log.i(LOG_TAG, "Uri: " + fileUri);
-
-                        String filePath = null;
-                        try {
-                            filePath = FileUtils.getPath(this.getContext(),fileUri);
-                        } catch (Exception e) {
-                            Log.e(LOG_TAG,"Error: " + e);
-                            Toast.makeText(this.getContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
-                        }
-                        this.editTextPath.setText(filePath);
+                    }catch (Exception e) {
+                        Toast.makeText(getContext(), e.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
-                break;
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
 
-    public String getPath()  {
-        return this.editTextPath.getText().toString();
+                @NonNull
+                private String getFileContentFromURI(Uri uri) throws IOException {
+                    InputStream in = getContext().getContentResolver().openInputStream(uri);
+                    BufferedReader r = new BufferedReader(new InputStreamReader(in));
+                    StringBuilder total = new StringBuilder();
+                    for (String line; (line = r.readLine()) != null; ) {
+                        total.append(line).append('\n');
+                    }
+                    return total.toString();
+                }
+
+
+            });
+
+    private void launchTestFallDetector(String content) {
+        try {
+            JSONArray testData = new JSONArray(content);
+            FallDetectorCore detector = new FallDetectorCore(getContext(), "09212422065", true, testData);
+            detector.simulateSensors();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "SHIIIIIIIIIIIIIIIIIT", Toast.LENGTH_LONG).show();
+        }
+
     }
 
     private void setRV(View view){
 
         this.editTextPath = (EditText) view.findViewById(R.id.editText_path);
-//        this.buttonBrowse = (Button) view.findViewById(R.id.button_browse);
-        this.buttonBrowse =  view.findViewById(R.id.button_browse);
+        this.buttonBrowse = (Button) view.findViewById(R.id.button_browse);
 
         this.buttonBrowse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                askPermissionAndBrowseFile();
+                mGetContent.launch("*/*");
             }
         });
 
